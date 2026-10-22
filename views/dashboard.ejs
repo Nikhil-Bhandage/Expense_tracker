@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Expense Tracker</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">💰</div>
+                <h2>Expense Tracker</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+                <a href="/expenses" class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    Expenses
+                </a>
+                <a href="/logout" class="nav-item">
+                    <span class="nav-icon">🚪</span>
+                    Logout
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-name"><%= username %></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn-download" onclick="downloadCSV()">
+                        📥 Download CSV
+                    </button>
+                    <button class="btn-theme" onclick="toggleTheme()">
+                        🌙 Dark Mode
+                    </button>
+                </div>
+            </header>
+
+            <!-- Month Navigation -->
+            <div class="month-navigation">
+                <button class="btn-nav" onclick="navigateMonth(-1)">
+                    ◀ Previous
+                </button>
+                <div class="month-selector">
+                    <select id="monthSelect" onchange="changeMonth()">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select id="yearSelect" onchange="changeMonth()">
+                        <!-- Years will be populated by JavaScript -->
+                    </select>
+                </div>
+                <button class="btn-nav" onclick="navigateMonth(1)">
+                    Next ▶
+                </button>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">💵</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Monthly Total</p>
+                        <h2 class="stat-value" id="totalExpense">₹0.00</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Transactions</p>
+                        <h2 class="stat-value" id="expenseCount">0</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Average Expense</p>
+                        <h2 class="stat-value" id="avgExpense">₹0.00</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <p class="stat-label">Top Category</p>
+                        <h2 class="stat-value" id="topCategory">-</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Expense Distribution by Category</h3>
+                    <div class="chart-container">
+                        <canvas id="categoryPieChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="category-list-card">
+                    <h3>Category-wise Summary</h3>
+                    <div class="category-list" id="categoryList">
+                        <p class="no-data">No expenses yet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Add Expense -->
+            <div class="quick-add-section">
+                <h3>Quick Add Expense</h3>
+                <form id="quickAddForm" class="quick-add-form">
+                    <input 
+                        type="number" 
+                        name="amount" 
+                        placeholder="Amount" 
+                        step="0.01"
+                        required
+                    >
+                    <select name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Home">🏠 Home</option>
+                        <option value="Food">🍔 Food</option>
+                        <option value="College">🎓 College</option>
+                        <option value="Travel">✈️ Travel</option>
+                        <option value="Other">📦 Other</option>
+                    </select>
+                    <input 
+                        type="text" 
+                        name="description" 
+                        placeholder="Description (optional)"
+                    >
+                    <input 
+                        type="date" 
+                        name="date" 
+                        id="quickAddDate"
+                        required
+                    >
+                    <button type="submit" class="btn-primary">Add Expense</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
